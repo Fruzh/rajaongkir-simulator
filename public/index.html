@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RajaOngkir Simulator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="assets/css/slimselect.css" rel="stylesheet">
+    <script src="assets/js/slimselect.min.js"></script>
+    <link href="assets/css/style.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-50 min-h-screen font-sans text-slate-900 flex items-center justify-center p-4 lg:p-8 antialiased">
+    <div id="mainCard" class="max-w-6xl w-full bg-white rounded-[2.5rem] shadow-2xl shadow-slate-200/50 overflow-hidden flex flex-col md:flex-row border border-slate-100 transition-all-slow">
+        <div id="leftColumn" class="w-full md:w-1/2 p-8 lg:p-12 bg-slate-50/50 border-r border-slate-100 transition-all-slow flex flex-col">
+            <h2 class="text-2xl md:text-3xl font-bold tracking-tight mb-8 leading-tight">Detail Alamat</h2>
+
+            <div class="space-y-6 custom-scrollbar overflow-y-auto pr-1 max-h-[calc(100vh-300px)] md:max-h-none">
+                <div class="space-y-4">
+                    <label class="text-[10px] font-bold uppercase tracking-[0.2em] text-blue-600 flex items-center gap-2 ml-1">
+                        <i data-lucide="map-pin" class="w-3 h-3"></i>
+                        Asal Pengiriman
+                    </label>
+                    
+                    <div class="grid grid-cols-1 gap-4">
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-semibold tracking-wider text-slate-500 ml-1">Provinsi</label>
+                            <select id="originProvince" class="w-full"><option value="" data-placeholder="true">Pilih Provinsi...</option></select>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="space-y-1.5">
+                                <label class="text-xs font-semibold tracking-wider text-slate-500 ml-1">Kota/Kabupaten</label>
+                                <select id="originCity" disabled class="w-full"><option value="" data-placeholder="true">Pilih Kota...</option></select>
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="text-xs font-semibold tracking-wider text-slate-500 ml-1">Kecamatan</label>
+                                <select id="originDistrict" disabled class="w-full"><option value="" data-placeholder="true">Pilih Kecamatan...</option></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border-t border-slate-200/50 my-2"></div>
+
+                <div class="space-y-4">
+                    <label class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 flex items-center gap-2 ml-1">
+                        <i data-lucide="navigation" class="w-3 h-3"></i>
+                        Tujuan Pengiriman
+                    </label>
+
+                    <div class="grid grid-cols-1 gap-4">
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-semibold tracking-wider text-slate-500 ml-1">Provinsi</label>
+                            <select id="destProvince" class="w-full"><option value="" data-placeholder="true">Pilih Provinsi...</option></select>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="space-y-1.5">
+                                <label class="text-xs font-semibold tracking-wider text-slate-500 ml-1">Kota/Kabupaten</label>
+                                <select id="destCity" disabled class="w-full"><option value="" data-placeholder="true">Pilih Kota...</option></select>
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="text-xs font-semibold tracking-wider text-slate-500 ml-1">Kecamatan</label>
+                                <select id="destDistrict" disabled class="w-full"><option value="" data-placeholder="true">Pilih Kecamatan...</option></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="rightColumn" class="w-full md:w-1/2 p-8 lg:p-12 flex flex-col transition-all-slow">
+            
+            <div id="courierView" class="flex-1 flex flex-col">
+                <h2 class="text-2xl md:text-3xl font-bold tracking-tight mb-8">Konfigurasi Paket</h2>
+
+                <div class="space-y-1.5 mb-8">
+                    <label class="text-xs font-semibold uppercase tracking-wider text-slate-500 ml-1">Total Berat</label>
+                    <div class="relative">
+                        <input type="number" id="weight" value="1000" min="1"
+                            class="w-full px-5 py-4 border border-slate-200 rounded-2xl outline-none text-xl font-bold bg-white focus:ring-4 focus:ring-blue-500/10 transition-all">
+                        <span class="absolute right-5 top-1/2 -translate-y-1/2 font-bold text-slate-400 uppercase tracking-widest text-xs">Gram</span>
+                    </div>
+                </div>
+
+                <div class="space-y-3 mb-4">
+                    <h3 class="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] ml-1 flex items-center gap-2">
+                        <i data-lucide="layout-grid" class="w-3 h-3"></i>
+                        Pilih Kurir
+                    </h3>
+                </div>
+                
+                <div id="couriers-list" class="grid grid-cols-2 lg:grid-cols-3 gap-3 overflow-y-auto max-h-[320px] pr-2 custom-scrollbar flex-1 mb-8"></div>
+
+                <div class="mt-auto pt-4">
+                    <button type="button" id="btnCalculate"
+                        class="w-full bg-blue-600 hover:bg-blue-700 active:scale-[0.98] text-white font-bold py-5 px-6 rounded-[2rem] shadow-2xl shadow-blue-100 transition-all flex justify-center items-center gap-3">
+                        <span id="btnText" class="text-lg">Cek Ongkos Kirim</span>
+                        <div id="btnSpinner" class="hidden animate-spin h-5 w-5 border-[3px] border-white/30 border-t-white rounded-full"></div>
+                    </button>
+                </div>
+            </div>
+
+            <div id="resultsView" class="hidden flex-1 flex flex-col animate-in slide-in-from-right-6 duration-300">
+                
+                <button id="btnBackToCouriers" class="mb-6 flex items-center gap-2 text-slate-400 hover:text-blue-600 font-semibold transition-all text-sm group">
+                    <i data-lucide="chevron-left" class="w-4 h-4 transition-transform group-hover:-translate-x-1"></i>
+                    Kembali Ubah Kurir
+                </button>
+
+                <h2 class="text-2xl md:text-3xl font-bold tracking-tight mb-2 leading-tight">Hasil Kalkulasi</h2>
+                <p class="text-sm text-slate-500 mb-8">Daftar layanan pengiriman terurut termurah.</p>
+
+                <div id="resultsContainer" class="space-y-4 mb-8 overflow-y-auto max-h-[380px] pr-2 custom-scrollbar"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="fixed top-6 right-6 z-50 transform translate-y-[-20px] opacity-0 transition-all duration-300 pointer-events-none">
+        <div class="bg-red-500 text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3 border border-red-600">
+            <i data-lucide="alert-circle" class="w-5 h-5 text-white"></i>
+            <p id="toastMessage" class="text-sm font-bold"></p>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+    </script>
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/script.js?v=6.0"></script>
+</body>
+</html>
